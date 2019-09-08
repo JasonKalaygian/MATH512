@@ -2,11 +2,15 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
+#sqrt(rate of growth) function
+def sqrtr(T, Tmin, Tmax, b, c):
+    return b*(T-Tmin)*(1-np.exp(c*(T-Tmax)))
+
 #differential eqn for the number of bacteria at time t
 #T in kelvin
 def logistic(N, t, T, Tmin, Tmax, b, c, Nmax):
-    sqrtr = b*(T-Tmin)*(1-np.exp(c*(T-Tmax)))
-    dNdt = ((sqrtr)**2)*N*(1 - (N/Nmax)) 
+    sqr = sqrtr(T, Tmin, Tmax, b, c)
+    dNdt = ((sqr)**2)*N*(1 - (N/Nmax)) 
     return dNdt
 
 #domain
@@ -36,4 +40,10 @@ plt.legend()
 plt.show()
 plt.clf()
 
-
+Ts = np.linspace(Tmin-5, Tmax+5)
+plt.plot(Ts, sqrtr(Ts, Tmin, Tmax, b, c))
+plt.ylim(0, 3)
+plt.xlabel('Temperature [K]')
+plt.ylabel('sqrt(r)')
+plt.show()
+plt.clf()
