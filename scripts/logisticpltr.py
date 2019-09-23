@@ -43,12 +43,12 @@ def logistic(N, t, T, Tmin, Tmax, b, c, Nmax, N0, f):
     sqr = sqrtr(T, Tmin, Tmax, b, c)
     Nmin = (1-1e-6)*N0
     r = sqr**2/3600
-    print(r)
+    #print(r)
     dNdt = (r)*N*(1 - (N/Nmax))*(1 - (Nmin/N))**f
     return dNdt
 
 #domaini
-t = np.linspace(0,9)
+t = np.linspace(0,10, 10000)
 
 #parameters
 T = 300 #room temp
@@ -66,8 +66,8 @@ for i in range(5):
     T+=4.5
 
 plt.axhline(y=Nmax, color='r', ls='--')
-plt.xlabel('time')
-plt.ylabel('num of bacteria')
+plt.xlabel('time [hrs]')
+plt.ylabel('num of bacteria $N$')
 plt.tight_layout()
 plt.legend()
 plt.show()
@@ -75,9 +75,12 @@ plt.clf()
 
 Ts = np.linspace(Tmin-5, Tmax+5)
 plt.plot(Ts, ecoli(Ts, bparam, cparam))
-plt.plot(ecolitemp, ecolisqr, 'o')
+#plt.plot(ecolitemp, ecolisqr, 'o')
+plt.vlines(314, 0, 130, linestyles='dashed', colors='r')
 plt.xlabel('Temperature [K]')
 plt.ylabel('$\sqrt{r}$')
+plt.title('E. Coli')
 plt.ylim(0, 130)
+plt.savefig('growthcurve.pdf')
 plt.show()
 plt.clf()
